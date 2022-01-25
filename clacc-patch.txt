@@ -1,0 +1,53 @@
+diff --git a/openmp/libacc2omp/test/CMakeLists.txt b/openmp/libacc2omp/test/CMakeLists.txt
+index cea4f71fa44d..b753b4a8f4bd 100644
+--- a/openmp/libacc2omp/test/CMakeLists.txt
++++ b/openmp/libacc2omp/test/CMakeLists.txt
+@@ -39,12 +39,14 @@ endforeach()
+ 
+ # Generate a test suite that compiles for all target device types available on
+ # the current system.
+-add_openmp_testsuite(check-libacc2omp-multitarget
+-  "Running libacc2omp tests" ${CMAKE_CURRENT_BINARY_DIR}/multitarget
+-  DEPENDS acc2omp)
+-list(APPEND LIBACC2OMP_LIT_TESTSUITES ${CMAKE_CURRENT_BINARY_DIR}/multitarget)
+-set(CURRENT_TARGET multitarget)
+-configure_file(lit.site.cfg.in ${CURRENT_TARGET}/lit.site.cfg @ONLY)
++if (SYSTEM_TARGETS)
++  add_openmp_testsuite(check-libacc2omp-multitarget
++    "Running libacc2omp tests" ${CMAKE_CURRENT_BINARY_DIR}/multitarget
++    DEPENDS acc2omp)
++  list(APPEND LIBACC2OMP_LIT_TESTSUITES ${CMAKE_CURRENT_BINARY_DIR}/multitarget)
++  set(CURRENT_TARGET multitarget)
++  configure_file(lit.site.cfg.in ${CURRENT_TARGET}/lit.site.cfg @ONLY)
++endif()
+ 
+ # Add check-libacc2omp including all above test suites.
+ add_openmp_testsuite(check-libacc2omp
+diff --git a/openmp/libomptarget/test/CMakeLists.txt b/openmp/libomptarget/test/CMakeLists.txt
+index b01c10258d44..f0256abf4e49 100644
+--- a/openmp/libomptarget/test/CMakeLists.txt
++++ b/openmp/libomptarget/test/CMakeLists.txt
+@@ -34,13 +34,16 @@ endforeach()
+ 
+ # Some tests compile for multiple target device types (such as x86_64 and
+ # nvptx64) in the same compile command.
+-add_openmp_testsuite(check-libomptarget-multitarget
+-  "Running libomptarget tests" ${CMAKE_CURRENT_BINARY_DIR}/multitarget
+-  DEPENDS omptarget omp ${LIBOMPTARGET_TESTED_PLUGINS}
+-  ARGS ${LIBOMPTARGET_LIT_ARG_LIST})
+-list(APPEND LIBOMPTARGET_LIT_TESTSUITES ${CMAKE_CURRENT_BINARY_DIR}/multitarget)
+-set(CURRENT_TARGET multitarget)
+-configure_file(lit.site.cfg.in multitarget/lit.site.cfg @ONLY)
++if (SYSTEM_TARGETS)
++  add_openmp_testsuite(check-libomptarget-multitarget
++    "Running libomptarget tests" ${CMAKE_CURRENT_BINARY_DIR}/multitarget
++    DEPENDS omptarget omp ${LIBOMPTARGET_TESTED_PLUGINS}
++    ARGS ${LIBOMPTARGET_LIT_ARG_LIST})
++  list(APPEND LIBOMPTARGET_LIT_TESTSUITES
++       ${CMAKE_CURRENT_BINARY_DIR}/multitarget)
++  set(CURRENT_TARGET multitarget)
++  configure_file(lit.site.cfg.in multitarget/lit.site.cfg @ONLY)
++endif()
+ 
+ # Some tests compile without offloading.
+ add_openmp_testsuite(check-libomptarget-host

@@ -15,7 +15,11 @@ spack -e . concretize -f | tee concretize.log
 time spack -e . install
 
 git clone https://github.com/llvm-doe-org/llvm-project
-(cd llvm-project && git checkout clacc/main)
+(
+ cd llvm-project
+ git checkout clacc/main
+ git apply /clacc-patch.txt
+)
 
 mkdir -p build-cpu-0
 cp cmake-cpu.sh build-cpu-0/
