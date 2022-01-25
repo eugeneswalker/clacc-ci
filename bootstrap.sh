@@ -21,11 +21,24 @@ git clone https://github.com/llvm-doe-org/llvm-project
  git apply /clacc-patch.txt
 )
 
-mkdir -p build-cpu-0
-cp cmake-cpu.sh build-cpu-0/
-cd build-cpu-0
-./cmake.sh
-make -j32
-make -j12 \
- check-clang-openacc \
- check-libacc2omp
+mkdir -p /build-cpu-0
+cp /cmake-cpu.sh build-cpu-0/.
+(
+ cd /build-cpu-0
+ ./cmake-cpu.sh
+ make -j32
+ make -j12 \
+  check-clang-openacc \
+  check-libacc2omp
+)
+
+mkdir -p /build-nvidia-0
+cp /cmake-nvidia.sh /build-nvidia-0/.
+(
+ cd /build-nvidia-0
+ ./cmake-nvidia.sh
+ make -j32
+ make -j12 \
+  check-clang-openacc \
+  check-libacc2omp
+)
