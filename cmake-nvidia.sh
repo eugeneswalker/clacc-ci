@@ -17,4 +17,4 @@ cmake \
  -DLLVM_TARGETS_TO_BUILD="host;NVPTX" \
  -DCMAKE_C_COMPILER=gcc \
  -DCMAKE_CXX_COMPILER=g++ \
- /llvm/llvm
+ /llvm-project/llvm
